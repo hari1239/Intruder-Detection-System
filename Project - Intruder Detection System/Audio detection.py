@@ -78,8 +78,8 @@ def load_data(target_folder, non_target_folder):
     return X, y
 
 # Define your paths to the target and non-target audio files
-target_folder = "Target_Set_Glass shattering Audio"
-non_target_folder = "Non_Target_Set_Glass shattering Audio"
+target_folder = r"Project - Intruder Detection System\Target_Set_Glass shattering Audio"
+non_target_folder = r"Project - Intruder Detection System\Non_Target_Set_Glass shattering Audio"
 
 # Load data and extract features
 X, y = load_data(target_folder, non_target_folder)
@@ -107,7 +107,7 @@ stop_alarm = False
 
 # Function to play an alarm sound
 def play_alarm():
-    alarm_sound = AudioSegment.from_file("Alarm.mp3", format="mp3")
+    alarm_sound = AudioSegment.from_file(r"Project - Intruder Detection System\Alarm.mp3", format="mp3")
     play(alarm_sound)
 
 try:
