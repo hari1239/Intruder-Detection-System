@@ -29,13 +29,13 @@ def record_audio(duration=3, sample_rate=44100, file_name="recorded_audio.mp3"):
                         input=True,
                         frames_per_buffer=1024)
 
-    print("Recording...")
+    #print("Recording...")
     frames = []
     for i in range(0, int(sample_rate / 1024 * duration)):
         data = stream.read(1024)
         frames.append(data)
 
-    print("Finished recording.")
+    #print("Finished recording.")
 
     stream.stop_stream()
     stream.close()
