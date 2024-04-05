@@ -81,7 +81,7 @@ class ImageLabelingApp:
             os.remove(image_path)
 
 if __name__ == "__main__":
-    intruder_folder = "intruders_images"
+    intruder_folder = "Final\intruders_images"
 
     root = tk.Tk()
     app = ImageLabelingApp(root, intruder_folder)

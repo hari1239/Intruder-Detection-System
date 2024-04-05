@@ -18,7 +18,12 @@ from sklearn.preprocessing import StandardScaler
 import pyaudio
 import wave
 from datetime import datetime  # Added for timestamp in image names
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
 
+
+#image_path=""
 # Function to extract audio features using Librosa
 def lock_system():
     root = tk.Tk()
@@ -62,34 +67,42 @@ def record_audio(duration=3, sample_rate=44100, file_name="recorded_audio.mp3"):
     os.remove("temp.wav")
 
     return file_name
-def send_email(subject, body):
-    # Email configuration
-    sender_email = 'lifesorted.com@gmail.com'
-    receiver_email = 'harinib200319@gmail.com'  # Change this to your desired recipient email
-    password = 'cgrs apja ghon gfgp'
+# def send_email(subject, body):
+#     # Email configuration
+#     sender_email = 'lifesorted.com@gmail.com'
+#     receiver_email = 'harinib200319@gmail.com'  # Change this to your desired recipient email
+#     password = 'cgrs apja ghon gfgp'
 
-    # Create the email content
-    message = MIMEText(body)
-    message['Subject'] = subject
-    message['From'] = sender_email
-    message['To'] = receiver_email
+#     # Create the email content
+#     message = MIMEMultipart()
+#     #message = MIMEText(body)
+#     message['Subject'] = subject
+#     message['From'] = sender_email
+#     message['To'] = receiver_email
+#     message.attach(MIMEText(intruder_body, 'plain'))
+#     #image_path = f"Final/intruders_images/intruder_{timestamp}.jpg"
+#     with open(image_path, 'rb') as img_file:
+#         image_data = img_file.read()
+#         image = MIMEImage(image_data)
+#         image.add_header('Content-Disposition', 'attachment', filename=os.path.basename(image_path))
+#         message.attach(image)
 
-    try:
-        # Connect to the SMTP server
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
+#     try:
+#         # Connect to the SMTP server
+#         server = smtplib.SMTP('smtp.gmail.com', 587)
+#         server.starttls()
 
-        # Log in to your email account
-        server.login(sender_email, password)
+#         # Log in to your email account
+#         server.login(sender_email, password)
 
-        # Send the email
-        server.sendmail(sender_email, receiver_email, message.as_string())
+#         # Send the email
+#         server.sendmail(sender_email, receiver_email, message.as_string())
 
-        # Close the connection
-        server.quit()
-        print("Email sent successfully!")
-    except Exception as e:
-        print(f"Error sending email: {e}")
+#         # Close the connection
+#         server.quit()
+#         print("Email sent successfully!")
+#     except Exception as e:
+#         print(f"Error sending email: {e}")
 
 # Example usage
 intruder_subject = "Intruder Detected"
@@ -141,17 +154,53 @@ def assign_scores(frame):
 
 # Function to play an alarm sound
 def play_alarm():
-    alarm_sound = AudioSegment.from_file("Intruder detected 1.wav", format="wav")
+    alarm_sound = AudioSegment.from_file("Final\Intruder_detected_1.wav", format="wav")
     play(alarm_sound)
 def play_alarm1():
-    alarm_sound = AudioSegment.from_file("User Recognized Unlockin 1.wav", format="wav")
+    alarm_sound = AudioSegment.from_file(r"Final\\User_Recognized_Unlockin_1.wav", format="wav")
     play(alarm_sound)
 # Function to save intruder images
 def save_intruder_image(frame):
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    image_path = f"intruders_images/intruder_{timestamp}.jpg"
+    image_path = f"Final/intruders_images/intruder_{timestamp}.jpg"
     cv2.imwrite(image_path, frame)
     print(f"Intruder image saved: {image_path}")
+
+    # Email configuration
+    sender_email = 'lifesorted.com@gmail.com'
+    receiver_email = 'harinib200319@gmail.com'  # Change this to your desired recipient email
+    password = 'cgrs apja ghon gfgp'
+
+    # Create the email content
+    message = MIMEMultipart()
+    #message = MIMEText(body)
+    message['Subject'] = intruder_subject
+    message['From'] = sender_email
+    message['To'] = receiver_email
+    message.attach(MIMEText(intruder_body, 'plain'))
+    #image_path = f"Final/intruders_images/intruder_{timestamp}.jpg"
+    with open(image_path, 'rb') as img_file:
+        image_data = img_file.read()
+        image = MIMEImage(image_data)
+        image.add_header('Content-Disposition', 'attachment', filename=os.path.basename(image_path))
+        message.attach(image)
+
+    try:
+        # Connect to the SMTP server
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+
+        # Log in to your email account
+        server.login(sender_email, password)
+
+        # Send the email
+        server.sendmail(sender_email, receiver_email, message.as_string())
+
+        # Close the connection
+        server.quit()
+        print("Email sent successfully!")
+    except Exception as e:
+        print(f"Error sending email: {e}")
 
 # Function to load face recognition model
 def load_face_model(face_model_path):
@@ -188,7 +237,7 @@ def recognize_face(frame, known_face_encodings, known_face_names):
 cap = cv2.VideoCapture(0)
 
 # Load face recognition model
-known_face_encodings, known_face_names = load_face_model("Gouri_model.npz")
+known_face_encodings, known_face_names = load_face_model("Final\Gouri_model.npz")
 
 # Include the LockingSystem class from program 5 here
 
@@ -230,10 +279,10 @@ try:
         # Update Tkinter window
         root.update()
 
-        if total_score > score_limit:
+        if total_score <= score_limit:
             # Start a new thread to play the alarm sound
             threading.Thread(target=play_alarm).start()
-            send_email(intruder_subject, intruder_body)
+            #send_email(intruder_subject, intruder_body)
             # Save intruder image
             save_intruder_image(frame)
 
@@ -243,6 +292,7 @@ try:
                 print("Recognized face: known person")
                 print("System unlocked!")
                 break  # You can add your unlocking logic here
+            break
 
 except KeyboardInterrupt:
     print("Intrusion detection stopped.")

@@ -53,7 +53,7 @@ class TrainFaceModelApp:
                     print(f"No face found in {filename}")
 
         # Save the trained model
-        np.savez(f"{name}_model.npz", known_face_encodings=np.array(known_face_encodings), known_face_names=np.array(known_face_names))
+        np.savez(f"Final\{name}_model.npz", known_face_encodings=np.array(known_face_encodings), known_face_names=np.array(known_face_names))
         print("Model saved successfully.")
 
 if __name__ == "__main__":

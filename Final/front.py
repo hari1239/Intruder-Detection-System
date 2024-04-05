@@ -24,16 +24,16 @@ class SafeFaceApp:
         # canvas.create_window(200, 290, window=button4)
 
     def run_program1(self):
-        self.run_program("main.py")
+        self.run_program("Final\main.py")
 
     def run_program2(self):
-        self.run_program("training.py")
+        self.run_program("Final\\training.py")
 
     # def run_program3(self):
     #     self.run_program("recognise.py")
     
     def run_program3(self):
-        self.run_program("adaptation.py")
+        self.run_program("Final\\adaptation.py")
 
     def run_program(self, program_name):
         if os.path.isfile(program_name):

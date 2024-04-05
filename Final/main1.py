@@ -169,7 +169,7 @@ def recognize_face(frame, known_face_encodings, known_face_names):
 cap = cv2.VideoCapture(0)
 
 # Load face recognition model
-known_face_encodings, known_face_names = load_face_model("Harini_model.npz")
+known_face_encodings, known_face_names = load_face_model("Final\Gouri_model.npz")
 
 # Set intrusion detection score limit
 score_limit = 1  # Adjust this value based on your requirements
