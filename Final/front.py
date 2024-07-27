@@ -22,7 +22,7 @@ class SafeFaceApp:
         canvas.create_window(200, 150, window=button2)
         canvas.create_window(200, 220, window=button3)
         # canvas.create_window(200, 290, window=button4)
-
+#prog1
     def run_program1(self):
         self.run_program("Final\main.py")
 
